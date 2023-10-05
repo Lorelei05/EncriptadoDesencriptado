@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cifrado y Descifrado César en JavaScript</title>
+    <link rel="stylesheet" type="text/css" href="ed.css">
+</head>
+<body>
+    <p>Texto Encriptado:</p>
+    <textarea id="textoEncriptado" rows="4" cols="50" readonly></textarea>
+
+    <p>Texto Desencriptado:</p>
+    <textarea id="textoDesencriptado" rows="4" cols="50" readonly></textarea>
+<br>
+<br>
+    <button onclick="goBack()">Volver</button>
+
+    <script>
+        // Función para descifrar un mensaje César
+        function descifrarCesar(textoEncriptado, clave) {
+            var textoDescifrado = '';
+            for (var i = 0; i < textoEncriptado.length; i++) {
+                var char = textoEncriptado[i];
+                var charCode = textoEncriptado.charCodeAt(i);
+
+                if (charCode >= 32 && charCode <= 126) {  // Rango de caracteres imprimibles en ASCII
+                    charCode = 32 + ((charCode - 32 - clave + 95) % 95);  // 95 es el número de caracteres imprimibles
+                    char = String.fromCharCode(charCode);
+                }
+
+                textoDescifrado += char;
+            }
+            return textoDescifrado;
+        }
+
+        // Función para redirigir a la página anterior
+        function goBack() {
+            window.history.back();
+        }
+
+        // Leer el parámetro de la URL
+        var urlParams = new URLSearchParams(window.location.search);
+        var textoEncriptado = urlParams.get('textoEncriptado');
+
+        // Mostrar el mensaje encriptado
+        document.getElementById('textoEncriptado').value = textoEncriptado;
+
+        // Descifrar y mostrar el mensaje desencriptado
+        var clave = 3; // Asegúrate de usar la misma clave que se utilizó para cifrar
+        var textoDesencriptado = descifrarCesar(textoEncriptado, clave);
+        document.getElementById('textoDesencriptado').value = textoDesencriptado;
+    </script>
+</body>
+</html>
